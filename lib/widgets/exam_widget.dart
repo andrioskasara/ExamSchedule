@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'exam.dart';
+import '../exam.dart';
 
 class ExamWidget extends StatefulWidget {
   final Function(Exam) addNewExam;
@@ -57,14 +58,7 @@ class ExamWidgetState extends State<ExamWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    Exam exam = Exam(
-                      subject: courseController.text,
-                      date: selectedDate,
-                    );
-                    widget.addNewExam(exam);
-                    Navigator.pop(context);
-                  },
+                  onPressed: _submitData,
                   style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.blueGrey,
@@ -116,5 +110,14 @@ class ExamWidgetState extends State<ExamWidget> {
         );
       });
     }
+  }
+
+  void _submitData() async {
+    Exam exam = Exam(
+      subject: courseController.text,
+      date: selectedDate,
+    );
+    widget.addNewExam(exam);
+    Navigator.pop(context);
   }
 }
