@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "450023283442",
+    "project_id": "examsapp-de583",
+    "storage_bucket": "examsapp-de583.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450023283442:android:0f8d9bda74897edbd6ce6b",
+        "android_client_info": {
+          "package_name": "com.example.mis_lab3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyZJx7lSw3HgNLEJUl-Pit1e5K4tfNtRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
