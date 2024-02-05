@@ -46,7 +46,6 @@ class _MapWidgetState extends State<MapWidget> {
                 height: 120,
                 child: GestureDetector(
                   onTap: () {
-                    // Show the alert dialog here
                     _showAlertDialog();
                   },
                   child: const Icon(Icons.pin_drop),
@@ -67,7 +66,6 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  // Function to show the alert dialog
   Future<void> _showAlertDialog() async {
     return showDialog(
       context: context,
