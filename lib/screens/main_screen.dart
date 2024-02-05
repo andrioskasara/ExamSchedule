@@ -1,8 +1,10 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../exam.dart';
-import '../notification_controller.dart';
+import '../models/exam.dart';
+import '../services/notifications/notification_controller.dart';
+import '../services/notifications/notification_service.dart';
+import '../widgets/map_widget.dart';
 import 'calendar_screen.dart';
 import '../widgets/exam_widget.dart';
 
@@ -25,12 +27,10 @@ class MainScreenState extends State<MainScreen> {
         subject: 'Implementation of Free and Open Source Systems',
         date: DateTime(2024, 2, 8, 9)),
     Exam(
-        subject: 'Mobile Information Systems',
-        date: DateTime(2024, 2, 5, 23)),
-    Exam(
-        subject: 'Introduction to Data Science',
-        date: DateTime(2024, 2, 9, 17))
+        subject: 'Introduction to Data Science', date: DateTime(2024, 2, 9, 17))
   ];
+
+  bool _isLocationBasedNotificationsEnabled = false;
 
   @override
   void initState() {
@@ -43,13 +43,7 @@ class MainScreenState extends State<MainScreen> {
             NotificationController.onNotificationCreateMethod,
         onNotificationDisplayedMethod:
             NotificationController.onNotificationDisplayed);
-    _scheduleNotificationsForExistingExams();
-  }
-
-  void _scheduleNotificationsForExistingExams() {
-    for (int i = 0; i < exams.length; i++) {
-      _scheduleNotification(exams[i]);
-    }
+    NotificationService().scheduleNotificationsForExistingExams(exams);
   }
 
   @override
@@ -69,6 +63,13 @@ class MainScreenState extends State<MainScreen> {
                 : _navigateToSignInPage(context),
           ),
           IconButton(
+            icon: Icon(_isLocationBasedNotificationsEnabled ?
+            Icons.notifications_active_rounded :
+            Icons.notifications_off_rounded, color: Colors.white),
+            onPressed: _toggleLocationNotifications,
+          ),
+          IconButton(onPressed: _openMap, icon: const Icon(Icons.location_on, color: Colors.white)),
+          IconButton(
             icon: const Icon(Icons.login, color: Colors.white),
             onPressed: _signOut,
           ),
@@ -79,7 +80,6 @@ class MainScreenState extends State<MainScreen> {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
-        //physics: const ScrollPhysics(),
         itemCount: exams.length,
         itemBuilder: (context, index) {
           final subject = exams[index].subject;
@@ -172,5 +172,38 @@ class MainScreenState extends State<MainScreen> {
             year: exam.date.subtract(const Duration(days: 1)).year,
             hour: exam.date.subtract(const Duration(days: 1)).hour,
             minute: exam.date.subtract(const Duration(days: 1)).minute));
+  }
+
+  void _toggleLocationNotifications() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Location Based Notifications"),
+          content: _isLocationBasedNotificationsEnabled
+              ? const Text("You have turned off location-based notifications")
+              : const Text("You have turned on location-based notifications"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                NotificationService().toggleLocationNotification();
+                setState(() {
+                  _isLocationBasedNotificationsEnabled =
+                      !_isLocationBasedNotificationsEnabled;
+                });
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _openMap() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MapWidget()));
   }
 }

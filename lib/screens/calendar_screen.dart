@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:mis_lab3/exam.dart';
+import 'package:mis_lab3/models/exam.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import "package:collection/collection.dart";

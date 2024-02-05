@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../exam.dart';
+import '../models/exam.dart';
 
 class ExamWidget extends StatefulWidget {
   final Function(Exam) addNewExam;
